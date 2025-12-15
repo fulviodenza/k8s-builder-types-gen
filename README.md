@@ -1,8 +1,24 @@
 # k8s-builder-types-gen
 
 A generator for builder functions for kubernetes API types
-
 For testing purposes (but not only) we use builder functions such as
+
+## Features
+- Automatic builder generation from `+builder` tags
+- Support for ObjectMeta fields (Name, Namespace, Labels, etc.)
+- Reduces test code
+
+## Quick Start
+```bash
+go install github.com/fulviodenza/k8s-builder-types-gen@latest
+k8s-builder-types-gen -input-dir=./api/v1 -output-dir=./api/v1
+```
+
+## Why This Tool?
+
+Reduces boilerplate when writing unit tests for Kubernetes operators by auto-generating builder functions.
+
+Sometimes, you may want to write functions like these:
 
 ```go
 // NewPod returns a Pod object with the given options
@@ -39,16 +55,17 @@ pods: []*v1.Pod{
 },
 ```
 
-This allows us to not create a static object for each test reducing the cognitive load on the developer, having to navigate through object declaration often in other files or at the end/top of the test file. 
+This tool allows us to not create a static object for each test reducing the cognitive load on the developer, having to navigate through object declaration often in other files or at the end/top of the test file. 
 
-This method allows us to have the whole object declared inside the single testcase and visualizing it since the first sight of the testcase
+This method allows us to have the whole object declared inside the single testcase and visualizing it since the first sight of it
 
 ## Run the generator
 
 Creating the builder functions is straightforward:
 
 ```sh
-./hack/update-builders.sh --input-dir ./api/v1alpha1 --output-dir ./api/v1alpha1
+go install github.com/fulviodenza/k8s-builder-types-gen@latest
+k8s-builder-types-gen -input-dir=./api/v1 -output-dir=./api/v1
 ```
 
 This command will generate the builders for all types that are marked with a `// +builder` annotation.
